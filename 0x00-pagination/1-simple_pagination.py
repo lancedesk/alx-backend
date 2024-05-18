@@ -4,7 +4,6 @@ This module contains a helper function for pagination.
 """
 from typing import List, Tuple
 import csv
-import math
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -41,9 +40,6 @@ class Server:
             self.__dataset = dataset[1:]
 
         return self.__dataset
-
-    def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        pass
 
 
 def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:

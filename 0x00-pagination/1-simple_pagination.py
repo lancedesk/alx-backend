@@ -41,22 +41,21 @@ class Server:
 
         return self.__dataset
 
+    def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+        """
+        Get a page from the dataset.
 
-def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-    """
-    Get a page from the dataset.
+        @page: integer, the page number (1-indexed)
+        @page_size: integer, number of items per page
+        Returns: list of lists, the paginated data
+        """
 
-    @page: integer, the page number (1-indexed)
-    @page_size: integer, number of items per page
-    Returns: list of lists, the paginated data
-    """
+        assert type(page) == int and type(page_size) == int
+        assert page > 0 and page_size > 0
 
-    assert type(page) == int and type(page_size) == int
-    assert page > 0 and page_size > 0
+        start_index, end_index = index_range(page, page_size)
+        dataset = self.dataset()
 
-    start_index, end_index = index_range(page, page_size)
-    dataset = self.dataset()
-
-    if start_index > len(dataset):
-        return []
-    return dataset[start_index:end_index]
+        if start_index >= len(dataset):
+            return []
+        return dataset[start_index:end_index]

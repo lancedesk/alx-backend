@@ -57,6 +57,6 @@ def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
     start_index, end_index = index_range(page, page_size)
     dataset = self.dataset()
 
-    if start_index >= len(dataset):
+    if start_index > len(dataset):
         return []
     return dataset[start_index:end_index]

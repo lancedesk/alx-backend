@@ -2,8 +2,9 @@
 """
 This module contains a helper function for pagination.
 """
-from typing import List, Tuple
+from typing import Dict, List, Tuple, Any
 import csv
+import math
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -59,3 +60,26 @@ class Server:
         if start_index >= len(dataset):
             return []
         return dataset[start_index:end_index]
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
+        """
+        Get a page from the dataset with hypermedia information.
+
+        @page: integer, the page number (1-indexed)
+        @page_size: integer, number of items per page
+        Returns: dict, containing the paginated data and hypermedia info
+        """
+        data = self.get_page(page, page_size)
+        start_index, end_index = index_range(page, page_size)
+        total_pages = math.ceil(len(self.dataset()) / page_size)
+
+        hypermedia_info = {
+            'page_size': len(data),
+            'page': page,
+            'data': data,
+            'next_page': page + 1 if end_index < len(self.dataset()) else None,
+            'prev_page': page - 1 if start_index > 0 else None,
+            'total_pages': total_pages
+        }
+
+        return hypermedia_info
